@@ -1,0 +1,309 @@
+/* ========================================
+   休暇カレンダー - Vacation Calendar
+   ======================================== */
+
+/* コンテナ */
+.vc-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  color: #333;
+  padding: 16px;
+  background: #fff;
+  min-height: 400px;
+}
+
+/* ヘッダー */
+.vc-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.vc-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  min-width: 140px;
+}
+
+.vc-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.vc-btn {
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  color: #333;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.vc-btn:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+.vc-btn:active {
+  background: #eee;
+}
+
+.vc-btn--nav {
+  padding: 6px 10px;
+  font-weight: 700;
+}
+
+.vc-btn--back {
+  text-decoration: none;
+  color: #1976D2;
+  border-color: #1976D2;
+  font-weight: 500;
+}
+
+.vc-btn--back:hover {
+  background: #e3f2fd;
+}
+
+/* 凡例 */
+.vc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.vc-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #555;
+  white-space: nowrap;
+}
+
+.vc-legend-color {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ローディング・エラー */
+.vc-loading {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+  font-size: 14px;
+}
+
+.vc-error {
+  text-align: center;
+  padding: 12px;
+  color: #d32f2f;
+  background: #ffeaea;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.vc-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 14px;
+}
+
+/* グリッドラッパー（横スクロール対応） */
+.vc-grid-wrapper {
+  overflow-x: auto;
+  overflow-y: visible;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+/* グリッド本体 */
+.vc-grid {
+  display: grid;
+  min-width: max-content;
+}
+
+/* セル共通 */
+.vc-cell {
+  padding: 0;
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.vc-cell:last-child {
+  border-right: none;
+}
+
+/* ヘッダーセル */
+.vc-cell--header {
+  background: #f8f9fa;
+  font-weight: 600;
+  font-size: 12px;
+  color: #555;
+  padding: 6px 2px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 36px;
+}
+
+.vc-cell--header.vc-cell--name {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  background: #f0f1f3;
+  min-width: 180px;
+  justify-content: center;
+}
+
+.vc-date-num {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.vc-date-dow {
+  font-size: 10px;
+  font-weight: 400;
+  color: #888;
+}
+
+/* 名前セル */
+.vc-cell--applicant {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #fff;
+  font-weight: 500;
+  padding: 4px 12px;
+  justify-content: flex-start;
+  min-width: 180px;
+  border-right: 2px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+/* 日付セル */
+.vc-cell--day {
+  padding: 3px 1px;
+  min-width: 36px;
+}
+
+/* 土日色 */
+.vc-cell--sat {
+  background: #f0f4ff;
+}
+
+.vc-cell--sat .vc-date-num,
+.vc-cell--sat .vc-date-dow {
+  color: #1976D2;
+}
+
+.vc-cell--sun {
+  background: #fff0f0;
+}
+
+.vc-cell--sun .vc-date-num,
+.vc-cell--sun .vc-date-dow {
+  color: #d32f2f;
+}
+
+/* 今日 */
+.vc-cell--today {
+  background: #fffde7 !important;
+}
+
+.vc-cell--header.vc-cell--today {
+  background: #fff9c4 !important;
+}
+
+.vc-cell--header.vc-cell--today .vc-date-num {
+  background: #1976D2;
+  color: #fff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* イベント（休暇バー） */
+.vc-event {
+  width: 100%;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.vc-event:hover {
+  opacity: 0.85;
+  transform: scaleY(1.1);
+}
+
+/* イベントの角丸（連続バー表現） */
+.vc-event--single {
+  border-radius: 4px;
+}
+
+.vc-event--start {
+  border-radius: 4px 0 0 4px;
+}
+
+.vc-event--end {
+  border-radius: 0 4px 4px 0;
+}
+
+.vc-event--mid {
+  border-radius: 0;
+}
+
+/* ステータス：承認済み（デフォルト、そのまま） */
+.vc-event--approved {
+  /* 通常表示 */
+}
+
+/* ステータス：申請中（半透明 + 斜線） */
+.vc-event--pending {
+  opacity: 0.7;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.3) 3px,
+    rgba(255, 255, 255, 0.3) 6px
+  ) !important;
+}
+
+/* 行ホバー */
+.vc-cell--applicant:hover,
+.vc-cell--applicant:hover ~ .vc-cell--day {
+  background: #fafafa;
+}
