@@ -89,8 +89,8 @@
       headers: { 'X-Requested-With': 'XMLHttpRequest' },
     });
     const usersData = await usersResp.json();
-    // code -> 表示名のマップ
-    return usersData.users.map((u) => u.name);
+    // code -> 表示名のマップ（全角スペース区切りの名前のみ使用）
+    return usersData.users.map((u) => u.name).filter((name) => /\u3000/.test(name));
   }
 
   // ========================================
