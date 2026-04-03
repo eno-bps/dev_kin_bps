@@ -36,6 +36,7 @@
   const STATUS_STYLES = {
     '申請完了': 'vc-event--approved',
     '申請中':   'vc-event--pending',
+    '承認待ち': 'vc-event--pending',
   };
 
   // ========================================
@@ -346,7 +347,9 @@
           if (dayMap.has(d)) {
             const ev = dayMap.get(d)[0]; // 同日複数は先頭を表示
             const color = VACATION_COLORS[ev.vacationType] || DEFAULT_COLOR;
-            const statusClass = STATUS_STYLES[ev.status] || '';
+            const isApproved = ev.status === '申請完了';
+            const pendingStyle = isApproved ? '' : 'opacity:0.7; background-image:repeating-linear-gradient(-45deg,transparent,transparent 3px,rgba(255,255,255,0.3) 3px,rgba(255,255,255,0.3) 6px);';
+            const statusClass = isApproved ? 'vc-event--approved' : 'vc-event--pending';
             const isStart = d === ev.startDay;
             const isEnd = d === ev.endDay;
             const roundClass = isStart && isEnd ? 'vc-event--single'
@@ -356,7 +359,7 @@
 
             html += `<div class="vc-cell vc-cell--day ${dowClass} ${todayClass}">
               <div class="vc-event ${statusClass} ${roundClass}"
-                   style="background:${color.bg}; color:${color.text}"
+                   style="background-color:${color.bg}; color:${color.text}; ${pendingStyle}"
                    data-record-id="${ev.recordId}"
                    title="${this.escapeHtml(ev.vacationType)}${ev.attendance ? ' (' + this.escapeHtml(ev.attendance) + ')' : ''}${!ev.isAllDay ? '\n' + ev.startTime + ' 〜 ' + ev.endTime : ''}">
                 ${isStart ? this.escapeHtml(ev.label) : ''}
